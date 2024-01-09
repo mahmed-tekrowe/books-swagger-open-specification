@@ -1,0 +1,102 @@
+openapi: 3.0.0
+info:
+  title: Book API
+  version: 1.0.0
+  description: An API for managing a collection of books
+
+paths:
+  /books:
+    get:
+      summary: Retrieve a list of books
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              example:
+                books:
+                  - title: "The Great Gatsby"
+                    author: "F. Scott Fitzgerald"
+                  - title: "To Kill a Mockingbird"
+                    author: "Harper Lee"
+
+    post:
+      summary: Add a new book to the collection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                author:
+                  type: string
+      responses:
+        '201':
+          description: Book added successfully
+        '400':
+          description: Bad request
+
+  /books/{id}:
+    get:
+      summary: Retrieve information about a specific book
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the book
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              example:
+                title: "The Great Gatsby"
+                author: "F. Scott Fitzgerald"
+        '404':
+          description: Book not found
+
+    put:
+      summary: Update information about a specific book
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the book
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                author:
+                  type: string
+      responses:
+        '200':
+          description: Book updated successfully
+        '404':
+          description: Book not found
+
+    delete:
+      summary: Remove a specific book from the collection
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the book
+      responses:
+        '204':
+          description: Book deleted successfully
+        '404':
+          description: Book not found
